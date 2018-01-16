@@ -1,0 +1,62 @@
+﻿@using ActiveDirManager.Core 
+@{
+  ViewBag.Title = "Home Page";
+}
+<script src="https://cdn.jsdelivr.net/jqgrid/4.6.0/i18n/grid.locale-en.js"></script>
+<script src="https://cdn.jsdelivr.net/jqgrid/4.6.0/jquery.jqGrid.min.js"></script>
+
+<div>
+  <form enctype="multipart/form-data" method="post" action="~/home/index" id="ajaxUploadForm" novalidate="novalidate">
+    <div class="panel-heading list-panel-heading">
+      <div>
+        <div class="input-group">
+          <label class="input-group-btn">
+            <span class="btn btn-defaut btn-primary ">
+              Browse&hellip;
+              <input type="file" style="display:none" name="file" id="fileInput">
+            </span>
+          </label>
+          <input type="text" class="form-control" readonly> &ensp;
+          <input type="submit" value="Upload" id="ajaxUploadButton" class="btn btn-primary">
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="panel-heading list-panel-heading">
+    <div>
+      <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("sync")'">
+        <span class="glyphicon glyphicon-refresh "></span>&ensp;Sync Active Directory
+      </button>
+    </div>
+  </div>
+  @if (Model != null && Model.Rows.Count > 0)
+  {
+    <hr />
+    <div class="panel-body">
+      <table id="importtable" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed table-responsive">
+
+        <thead>
+          <tr>
+            <th>Associate</th>
+            <th>Reports To</th>
+            <th>Business Unit</th>
+            <th>Department</th>
+            <th>Job Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var row in Model.Rows)
+          {
+            <tr>
+              <td>@String.Format("{0} - {1}, {2}", row[1], row[3], row[2])</td>
+              <td>@String.Format("{0} - {1}", row[5], row[6])</td>
+              <td>@row[9]</td>
+              <td>@row[10]</td>
+              <td>@row[11]</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div> 
+  }
+</div>
